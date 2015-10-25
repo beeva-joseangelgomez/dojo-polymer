@@ -79,11 +79,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Home</span>
           </a>
 
-          <!-- <a data-route="users" href="/users" on-click="onDataRouteClick">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a> -->
-
           <a data-route="wines" href="/wines" on-click="onDataRouteClick">
             <iron-icon icon="info"></iron-icon>
             <span>Wines</span>
@@ -92,10 +87,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </ul> -->
           </a>
 
-          <!-- <a data-route="contact" href="/contact" on-click="onDataRouteClick">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
-          </a> -->
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -130,43 +121,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="home">
               <paper-material elevation="1">
                 <my-greeting></my-greeting>
-
-                <!-- <p class="paper-font-subhead">Wine's list:</p> -->
-                <!-- <my-list></my-list> -->
-                <ul>
-                  <my-wines></my-wines>
-                </ul>
-              </paper-material>
-
-              <!-- <paper-material elevation="1">
-              </paper-material>
-
-              <paper-material elevation="1" class="paper-font-body2">
-              </paper-material> -->
-
-            </section>
-
-            <!-- <section data-route="users">
-              <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href="/users/Rob">Rob</a>
               </paper-material>
             </section>
-
-            <section data-route="user-info">
-              <paper-material elevation="1">
-                <h2 class="page-title">
-                User:<span>{{params.name}}</span>
-                </h2>
-                <div>This is <span>{{params.name}}</span>'s section</div>
-              </paper-material>
-            </section> -->
 
             <section data-route="wines">
               <paper-material elevation="1">
                 <h2 class="page-title">Wines</h2>
-                <p>This is the Wine Cellar</p>
                 <my-wines></my-wines>
               </paper-material>
             </section>
@@ -176,44 +136,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <h2 class="page-title">
                   Wine: <span>{{params.name}}</span>
                 </h2>
-                <div>This is <b>{{params.name}}</b> section:</div>
+                <div><p>Name: <input type="text" id="editWineName" value="{{params.name}}" /></div>
+                <div><p>Type: <input type="text" id="editWineType" value="{{params.type}}" /></div>
+                <div><p>Description: <input type="text" id="editWineDesc" value="{{params.desc}}" /></div>
+
+                <button on-click="editItem">Save!</button>
               </paper-material>
             </section>
-
-            <!-- <section data-route="contact">
-              <paper-material elevation="1">
-                <h2 class="page-title">Contact</h2>
-                <p>This is the contact section</p>
-              </paper-material>
-            </section> -->
 
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
     </paper-drawer-panel>
 
-    <!-- Uncomment next block to enable Service Worker support (1/2) -->
-    <!--
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="fastest"
-                         cache-config-file="cache-config.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
-    -->
-
   </template>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
+
+  <script>
+    (function () {
+      editItem: function(e) {
+        console.log(this.params);
+//          var item = {};
+//          item.name = document.querySelector("#newWineName").value;
+//          item.type = document.querySelector("#newWineType").value;
+//          item.desc = document.querySelector("#newWineDesc").value;
+//          if(item.name==='') {
+//            alert('You must introduce a name !');
+//          }
+//          if(item.type==='') {
+//            alert('You must introduce a type !');
+//          }
+//          if(item.desc==='') {
+//            alert('You must introduce a description !');
+//          }
+//          if(item.name!=='' && item.type!=='' && item.desc!=='') {
+//            this.push('myWines', {name: item.name, type: item.type, desc: item.desc});
+//            document.querySelector("#newWineName").value = '';
+//            document.querySelector("#newWineType").value = '';
+//            document.querySelector("#newWineDesc").value = '';
+//            //alert('New Wine "' + item.name + '" Added to Cellar');
+//          }
+      }
+    })();
+  </script>
+
 </body>
 
 </html>

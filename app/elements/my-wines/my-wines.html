@@ -16,15 +16,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 display: block;
             }
         </style>
+        <div id="newWine">
+            <p>Añadir un nuevo vino:</p>
+            <ul>
+                <li><label>Nombre: </label><input type="text" id="newWineName" value="" /></li>
+                <li><label>Tipo: </label><input type="text" id="newWineType" value="" /></li>
+                <li><label>Descripción: </label><input type="text" id="newWineDesc" value="" /></li>
+            </ul>
+            <button on-click="addItem" data-args="nombre,tipo,descripcion">Add New Wine</button>
+        </div>
         <ul>
-            <!-- <iron-list id="list" items="{{items}}" as="item"> -->
-                <template is="dom-repeat" items="{{items}}">
-                    <li><span class="paper-font-body1"><a href="{{_getHref(item.name)}}">{{item.name}}</a></span></li>
+            <!-- <template is="dom-repeat" items="{{myWines}}">
+                <li>
+                    <span class="paper-font-body1">
+                        <a href="{{_getHref(item.name)}}">{{item.name}}</a>
+                        <button on-click="remove"> Edit</button>
+                        <button on-click="remove"> Remove</button>
+                    </span>
+                </li>
+            </template> -->
+
+            <!-- <iron-ajax url="../../json/wines.json" last-response="{{myWines}}" handle-as="json" auto></iron-ajax> -->
+            <iron-list id="wines" items="{{myWines}}" as="item" if="{{page=='win'}}">
+                <template>
+                    <div>
+                        <a href="{{_getHref(item)}}">{{item.name}}</a>
+                        <button on-click="removeItem"> Remove</button>
+                    </div>
                 </template>
-            <!-- </iron-list> -->
-            <iron-list id="list" items="{{items}}" as="item">
-                <li>{{item.name}}</li>
             </iron-list>
+
         </ul>
     </template>
 
@@ -35,23 +56,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             Polymer({
                 is: 'my-wines',
                 properties: {
-                    items: {
+                    myWines: {
                         type: Array,
                         notify: true,
+                        value: function() {
+                            return [
+                                {name: 'Cune', type: 'Rioja tinto', desc: 'Excelente vino'},
+                                {name: 'Protos', type: 'Rioja tinto', desc: 'Gran vino'},
+                                {name: 'Pago de Capellanes', type: 'Ribera del Duero', desc: 'Para cualquier ocasión'},
+                                {name: 'Diamante', type: 'Rioja blanco', desc: 'Para acompañar pescados'},
+                                {name: 'Pata Negra', type: 'Rioja tinto', desc: 'Para tomar con carnes'},
+                                {name: 'Mil Flores', type: 'Ribera del Duero', desc: 'Vino afrutado'}
+                            ];
+                        }
                     }
                 },
-                _getHref: function(myWineName) {
-                    return '/wines/' + myWineName;
+                preventDispose: true,
+                _getHref: function(item) {
+                    return '/wines/' + item.name + '/' + item.type + '/' + item.desc;
                 },
                 ready: function() {
-                    this.items = [
-                        {name: 'Cune', type: 'Rioja tinto', desc: 'Excelente vino'},
-                        {name: 'Protos', type: 'Rioja tinto', desc: 'Gran vino'},
-                        {name: 'Pago de Capellanes', type: 'Ribera del Duero', desc: 'Para cualquier ocasión'},
-                        {name: 'Diamante', type: 'Rioja blanco', desc: 'Para acompañar pescados'},
-                        {name: 'Pata Negra', type: 'Rioja tinto', desc: 'Para tomar con carnes'},
-                        {name: 'Mil Flores', type: 'Ribera del Duero', desc: 'Vino afrutado'}
-                    ];
+                },
+                addItem: function(e) {
+                    var item = {};
+                    item.name = document.querySelector("#newWineName").value;
+                    item.type = document.querySelector("#newWineType").value;
+                    item.desc = document.querySelector("#newWineDesc").value;
+                    if(item.name==='') {
+                        alert('You must introduce a name !');
+                    }
+                    if(item.type==='') {
+                        alert('You must introduce a type !');
+                    }
+                    if(item.desc==='') {
+                        alert('You must introduce a description !');
+                    }
+                    if(item.name!=='' && item.type!=='' && item.desc!=='') {
+                        this.push('myWines', {name: item.name, type: item.type, desc: item.desc});
+                        document.querySelector("#newWineName").value = '';
+                        document.querySelector("#newWineType").value = '';
+                        document.querySelector("#newWineDesc").value = '';
+                        //alert('New Wine "' + item.name + '" Added to Cellar');
+                    }
+                },
+                removeItem: function(item) {
+                    var index = item.model.__data__.index;
+                    this.splice('myWines', index, 1);
+                    alert('Removing Wine ');
                 }
             });
         })();

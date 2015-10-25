@@ -1,0 +1,65 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="my-wines">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <ul>
+
+            <iron-list id="wines" items="{{homeWines}}" as="item">
+                <template>
+                    <li>
+                        <a href="{{_getHref(item.name)}}">{{item.name}}</a>
+                    </li>
+                </template>
+            </iron-list>
+
+        </ul>
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'my-wines',
+                properties: {
+                    homeWines: {
+                        type: Array,
+                        notify: true,
+                        value: function() {
+                            return [
+                                {name: 'Cune', type: 'Rioja tinto', desc: 'Excelente vino'},
+                                {name: 'Protos', type: 'Rioja tinto', desc: 'Gran vino'},
+                                {name: 'Pago de Capellanes', type: 'Ribera del Duero', desc: 'Para cualquier ocasión'},
+                                {name: 'Diamante', type: 'Rioja blanco', desc: 'Para acompañar pescados'},
+                                {name: 'Pata Negra', type: 'Rioja tinto', desc: 'Para tomar con carnes'},
+                                {name: 'Mil Flores', type: 'Ribera del Duero', desc: 'Vino afrutado'}
+                            ];
+                        }
+                    }
+                },
+                preventDispose: true,
+                _getHref: function(myWineName) {
+                    return '/wines/' + myWineName;
+                },
+                ready: function() {
+                }
+            });
+        })();
+    </script>
+
+</dom-module>
