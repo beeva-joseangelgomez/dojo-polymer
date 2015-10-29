@@ -136,11 +136,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <h2 class="page-title">
                   Wine: <span>{{params.name}}</span>
                 </h2>
-                <div><p>Name: <input type="text" id="editWineName" value="{{params.name}}" /></div>
-                <div><p>Type: <input type="text" id="editWineType" value="{{params.type}}" /></div>
-                <div><p>Description: <input type="text" id="editWineDesc" value="{{params.desc}}" /></div>
-
-                <button on-click="editItem">Save!</button>
+                <div><p>Name: {{params.name}}</div>
+                <div><p>Type: {{params.type}}</div>
+                <div><p>Description: {{params.desc}}</div>
               </paper-material>
             </section>
 
@@ -157,29 +155,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     (function () {
-      editItem: function(e) {
-        console.log(this.params);
-//          var item = {};
-//          item.name = document.querySelector("#newWineName").value;
-//          item.type = document.querySelector("#newWineType").value;
-//          item.desc = document.querySelector("#newWineDesc").value;
-//          if(item.name==='') {
-//            alert('You must introduce a name !');
-//          }
-//          if(item.type==='') {
-//            alert('You must introduce a type !');
-//          }
-//          if(item.desc==='') {
-//            alert('You must introduce a description !');
-//          }
-//          if(item.name!=='' && item.type!=='' && item.desc!=='') {
-//            this.push('myWines', {name: item.name, type: item.type, desc: item.desc});
-//            document.querySelector("#newWineName").value = '';
-//            document.querySelector("#newWineType").value = '';
-//            document.querySelector("#newWineDesc").value = '';
-//            //alert('New Wine "' + item.name + '" Added to Cellar');
-//          }
-      }
+        'use strict';
+
+        Polymer({
+            is: 'wine-info',
+            properties: {
+              myWines: {
+                type: Object,
+                notify: true
+              }
+            },
+            preventDispose: true,
+            ready: function() {
+            },
+            editItem: function(e) {
+                console.log(this.params);
+                var item = {};
+                item.name = document.querySelector("#newWineName").value;
+                item.type = document.querySelector("#newWineType").value;
+                item.desc = document.querySelector("#newWineDesc").value;
+                if (item.name === '') {
+                    alert('You must introduce a name !');
+                }
+                if (item.type === '') {
+                    alert('You must introduce a type !');
+                }
+                if (item.desc === '') {
+                    alert('You must introduce a description !');
+                }
+                if (item.name !== '' && item.type !== '' && item.desc !== '') {
+                    this.push('myWines', {name: item.name, type: item.type, desc: item.desc});
+                    document.querySelector("#newWineName").value = '';
+                    document.querySelector("#newWineType").value = '';
+                    document.querySelector("#newWineDesc").value = '';
+                }
+            }
+        });
     })();
   </script>
 

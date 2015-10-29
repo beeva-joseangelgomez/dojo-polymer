@@ -16,16 +16,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 display: block;
             }
         </style>
-        <div id="newWine">
+        <div id="newWine" class="hidden">
             <p>Añadir un nuevo vino:</p>
-            <ul>
+            <ul id="addNewWine">
                 <li><label>Nombre: </label><input type="text" id="newWineName" value="" /></li>
                 <li><label>Tipo: </label><input type="text" id="newWineType" value="" /></li>
                 <li><label>Descripción: </label><input type="text" id="newWineDesc" value="" /></li>
+                <li><button id="execAdd" on-click="execAddItem" data-args="nombre,tipo,descripcion"> Save!</button></li>
             </ul>
-            <button on-click="addItem" data-args="nombre,tipo,descripcion">Add New Wine</button>
         </div>
-        <ul>
+        <button id="add" on-click="addItem" data-args="nombre,tipo,descripcion">Add New Wine</button>
+        <div id="listWines">
+            <b>List:</b>
             <!-- <template is="dom-repeat" items="{{myWines}}">
                 <li>
                     <span class="paper-font-body1">
@@ -37,16 +39,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </template> -->
 
             <!-- <iron-ajax url="../../json/wines.json" last-response="{{myWines}}" handle-as="json" auto></iron-ajax> -->
-            <iron-list id="wines" items="{{myWines}}" as="item" if="{{page=='win'}}">
+            <iron-list id="wines" items="{{myWines}}" as="item">
                 <template>
                     <div>
                         <a href="{{_getHref(item)}}">{{item.name}}</a>
+                        <button on-click="editItem"> Edit</button>
                         <button on-click="removeItem"> Remove</button>
+                        <div class="hidden editElements" id="{{_getConcatId(index)}}">
+                            <div>
+                                <span>Name: <input type="text" name="editWineName" value="{{item.name}}" /></span>
+                                <span>Type: <input type="text" name="editWineType" value="{{item.type}}" /></span>
+                                <span>Description: <input type="text" name="editWineDesc" value="{{item.desc}}" /></span>
+                                <span><button on-click="saveItem" data-args="nombre,tipo,descripcion"> Save</button></span>
+                            </div>
+                        </div>
                     </div>
                 </template>
             </iron-list>
-
-        </ul>
+        </div>
     </template>
 
     <script>
@@ -75,9 +85,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 _getHref: function(item) {
                     return '/wines/' + item.name + '/' + item.type + '/' + item.desc;
                 },
+                _getConcatId: function(index) {
+                    return 'wine_'+index;
+                },
                 ready: function() {
                 },
                 addItem: function(e) {
+
+                    document.querySelector("#add").classList.add('hidden');
+                    document.querySelector("#add").classList.remove('visible');
+
+                    document.querySelector("#newWine").classList.remove('hidden');
+                    document.querySelector("#newWine").classList.add('visible');
+                },
+                execAddItem: function() {
                     var item = {};
                     item.name = document.querySelector("#newWineName").value;
                     item.type = document.querySelector("#newWineType").value;
@@ -97,12 +118,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         document.querySelector("#newWineType").value = '';
                         document.querySelector("#newWineDesc").value = '';
                         //alert('New Wine "' + item.name + '" Added to Cellar');
+
+                        document.querySelector("#add").classList.add('visible');
+                        document.querySelector("#add").classList.remove('hidden');
+
+                        document.querySelector("#newWine").classList.remove('visible');
+                        document.querySelector("#newWine").classList.add('hidden');
                     }
                 },
-                removeItem: function(item) {
-                    var index = item.model.__data__.index;
+                removeItem: function(e) {
+                    var data = e.model.__data__;
+                    var index = data.index;
+                    var name = data.item.name;
+
                     this.splice('myWines', index, 1);
-                    alert('Removing Wine ');
+                    alert('Removing Wine ' + name);
+                },
+                editItem: function(e) {
+                    var data = e.model.__data__;
+                    var element = data.item;
+                    var index = data.index;
+
+                    document.querySelector("#wine_"+index).classList.remove('hidden');
+                    document.querySelector("#wine_"+index).classList.add('visible');
+                },
+                saveItem: function(e) {
+                    var data = e.model.__data__;
+                    var element = data.item;
+                    var index = data.index;
+
+                    this.set('myWines.'+index+'.name', document.querySelector("#wine_"+index+" input[name='editWineName']").value);
+                    this.set('myWines.'+index+'.type', document.querySelector("#wine_"+index+" input[name='editWineType']").value);
+                    this.set('myWines.'+index+'.desc', document.querySelector("#wine_"+index+" input[name='editWineDesc']").value);
+
+                    document.querySelector("#wine_"+index).classList.remove('visible');
+                    document.querySelector("#wine_"+index).classList.add('hidden');
                 }
             });
         })();
