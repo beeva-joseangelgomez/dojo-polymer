@@ -32,24 +32,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div id="listWines">
             <b>List:</b>
 
-            <!-- <template is="dom-repeat" items="{{myWines}}">
-                <li>
-                    <span class="paper-font-body1">
-                        <a href="{{_getHref(item.name)}}">{{item.name}}</a>
-                        <button on-click="remove"> Edit</button>
-                        <button on-click="remove"> Remove</button>
-                    </span>
-                </li>
-            </template> -->
-
             <div id="wines">
-                <template is="dom-bind">
                     <firebase-collection
-                            order-by-child="height"
+                            order-by-child="name"
                             limit-to-first="15"
-                            location="https://resplendent-inferno-6764.firebaseio.com/"
+                            location="https://resplendent-inferno-6764.firebaseio.com/wines"
                             data="{{myWines}}"></firebase-collection>
-                    <template is="dom-repeat" items="[[myWines]]" as="item">
+                    <template is="dom-repeat" items="{{myWines}}" as="item">
                         <div class="left clear">
                             <div class="left">
                                 <a href="{{_getHref(item)}}">{{item.name}}</a>
@@ -64,11 +53,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     <span>Type: <input type="text" name="editWineType" value="{{item.type}}" /></span>
                                     <span>Description: <input type="text" name="editWineDesc" value="{{item.desc}}" /></span>
                                     <span><paper-button on-tap="saveItem" data-args="nombre,tipo,descripcion"> Save</paper-button></span>
+                                    <span><paper-button on-tap="closeEditItem" data-args="nombre,tipo,descripcion"> Save</paper-button></span>
                                 </div>
                             </div>
                         </div>
                     </template>
-                </template>
             </div>
 
             <!-- <iron-ajax url="../../json/wines.json" last-response="{{myWines}}" handle-as="json" auto></iron-ajax>
@@ -96,7 +85,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
         (function () {
             'use strict';
-
             Polymer({
                 is: 'my-wines',
                 properties: {
@@ -105,7 +93,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         notify: true
                     }
                 },
-                preventDispose: true,
                 _getHref: function(item) {
                     return '/wines/' + item.name + '/' + item.type + '/' + item.desc;
                 },
@@ -113,7 +100,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     return 'wine_'+index;
                 },
                 ready: function() {
-                    console.log('READY2');
+
                 },
                 addItem: function(e) {
 
@@ -166,6 +153,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                     document.querySelector("#wine_"+index).classList.remove('hidden');
                     document.querySelector("#wine_"+index).classList.add('visible');
+                },
+                closeEditItem: function(e) {
+                    document.querySelector("#wine_"+index).classList.remove('visible');
+                    document.querySelector("#wine_"+index).classList.add('hidden');
                 },
                 saveItem: function(e) {
                     var data = e.model.__data__;

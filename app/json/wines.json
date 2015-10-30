@@ -1,8 +1,10 @@
-[
-  {"name": "Cune", "types": "Rioja tinto", "desc": "Excelente vino"},
-  {"name": "Protos", "types": "Rioja tinto", "desc": "Gran vino"},
-  {"name": "Pago de Capellanes", "types": "Ribera del Duero", "desc": "Para cualquier ocasión"},
-  {"name": "Diamante", "types": "Rioja blanco", "desc": "Para acompañar pescados"},
-  {"name": "Pata Negra", "types": "Rioja tinto", "desc": "Para tomar con carnes"},
-  {"name": "Mil Flores", "types": "Ribera del Duero", "desc": "Vino afrutado"}
-]
+{
+  "wines": [
+    {"name": "Cune", "type": "Rioja tinto", "desc": "Excelente vino"},
+    {"name": "Protos", "type": "Rioja tinto", "desc": "Gran vino"},
+    {"name": "Pago de Capellanes", "type": "Ribera del Duero", "desc": "Para cualquier ocasión"},
+    {"name": "Diamante", "type": "Rioja blanco", "desc": "Para acompañar pescados"},
+    {"name": "Pata Negra", "type": "Rioja tinto", "desc": "Para tomar con carnes"},
+    {"name": "Mil Flores", "type": "Ribera del Duero", "desc": "Vino afrutado"}
+  ]
+}
