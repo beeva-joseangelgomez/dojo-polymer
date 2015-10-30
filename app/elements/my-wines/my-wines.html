@@ -18,16 +18,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </style>
         <div id="newWine" class="hidden">
             <p>Añadir un nuevo vino:</p>
-            <ul id="addNewWine">
-                <li><label>Nombre: </label><input type="text" id="newWineName" value="" /></li>
-                <li><label>Tipo: </label><input type="text" id="newWineType" value="" /></li>
-                <li><label>Descripción: </label><input type="text" id="newWineDesc" value="" /></li>
-                <li><button id="execAdd" on-click="execAddItem" data-args="nombre,tipo,descripcion"> Save!</button></li>
-            </ul>
+            <form on-submit="addItem">
+                <ul id="addNewWine">
+                    <li><label>Nombre: </label><input type="text" id="newWineName" value="" /></li>
+                    <li><label>Tipo: </label><input type="text" id="newWineType" value="" /></li>
+                    <li><label>Descripción: </label><input type="text" id="newWineDesc" value="" /></li>
+                    <li><paper-button id="execAdd" on-tap="execAddItem" data-args="nombre,tipo,descripcion"> Save!</paper-button></li>
+                    <li><paper-button id="closeAdd" on-tap="closeAddItem" data-args="nombre,tipo,descripcion"> CLOSE</paper-button></li>
+                </ul>
+            </form>
         </div>
-        <button id="add" on-click="addItem" data-args="nombre,tipo,descripcion">Add New Wine</button>
+        <paper-button id="add" on-tap="addItem" data-args="nombre,tipo,descripcion">Add New Wine</paper-button>
         <div id="listWines">
             <b>List:</b>
+
             <!-- <template is="dom-repeat" items="{{myWines}}">
                 <li>
                     <span class="paper-font-body1">
@@ -38,7 +42,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </li>
             </template> -->
 
-            <!-- <iron-ajax url="../../json/wines.json" last-response="{{myWines}}" handle-as="json" auto></iron-ajax> -->
+            <div id="wines">
+                <template is="dom-bind">
+                    <firebase-collection
+                            order-by-child="height"
+                            limit-to-first="15"
+                            location="https://resplendent-inferno-6764.firebaseio.com/"
+                            data="{{myWines}}"></firebase-collection>
+                    <template is="dom-repeat" items="[[myWines]]" as="item">
+                        <div class="left clear">
+                            <div class="left">
+                                <a href="{{_getHref(item)}}">{{item.name}}</a>
+                            </div>
+                            <div class="right">
+                                <paper-button on-tap="editItem"> Edit</paper-button>
+                                <paper-button on-tap="removeItem"> Remove</paper-button>
+                            </div>
+                            <div class="left hidden editElements" id="{{_getConcatId(index)}}">
+                                <div>
+                                    <span>Name: <input type="text" name="editWineName" value="{{item.name}}" /></span>
+                                    <span>Type: <input type="text" name="editWineType" value="{{item.type}}" /></span>
+                                    <span>Description: <input type="text" name="editWineDesc" value="{{item.desc}}" /></span>
+                                    <span><paper-button on-tap="saveItem" data-args="nombre,tipo,descripcion"> Save</paper-button></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+
+            <!-- <iron-ajax url="../../json/wines.json" last-response="{{myWines}}" handle-as="json" auto></iron-ajax>
             <iron-list id="wines" items="{{myWines}}" as="item">
                 <template>
                     <div>
@@ -55,7 +88,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </div>
                     </div>
                 </template>
-            </iron-list>
+            </iron-list> -->
+
         </div>
     </template>
 
@@ -68,17 +102,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 properties: {
                     myWines: {
                         type: Array,
-                        notify: true,
-                        value: function() {
-                            return [
-                                {name: 'Cune', type: 'Rioja tinto', desc: 'Excelente vino'},
-                                {name: 'Protos', type: 'Rioja tinto', desc: 'Gran vino'},
-                                {name: 'Pago de Capellanes', type: 'Ribera del Duero', desc: 'Para cualquier ocasión'},
-                                {name: 'Diamante', type: 'Rioja blanco', desc: 'Para acompañar pescados'},
-                                {name: 'Pata Negra', type: 'Rioja tinto', desc: 'Para tomar con carnes'},
-                                {name: 'Mil Flores', type: 'Ribera del Duero', desc: 'Vino afrutado'}
-                            ];
-                        }
+                        notify: true
                     }
                 },
                 preventDispose: true,
@@ -89,6 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     return 'wine_'+index;
                 },
                 ready: function() {
+                    console.log('READY2');
                 },
                 addItem: function(e) {
 
@@ -153,6 +178,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                     document.querySelector("#wine_"+index).classList.remove('visible');
                     document.querySelector("#wine_"+index).classList.add('hidden');
+                },
+                closeAddItem: function(e) {
+                    document.querySelector("#add").classList.add('visible');
+                    document.querySelector("#add").classList.remove('hidden');
+
+                    document.querySelector("#newWine").classList.remove('visible');
+                    document.querySelector("#newWine").classList.add('hidden');
                 }
             });
         })();

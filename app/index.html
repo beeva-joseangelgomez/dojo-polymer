@@ -139,6 +139,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div><p>Name: {{params.name}}</div>
                 <div><p>Type: {{params.type}}</div>
                 <div><p>Description: {{params.desc}}</div>
+
+                <!-- <iron-list id="reviews" items="{{reviews}}" as="review">
+                      <template>
+                          <div>
+                              <span>Fecha: <b>{{review.name}}</b></span>
+                              <span>Puntuación: <b>{{review.type}}</b></span>
+                              <span>Detalle: <b>{{review.desc}}</b></span>
+                          </div>
+                      </template>
+                </iron-list> -->
+
               </paper-material>
             </section>
 
@@ -154,44 +165,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endbuild-->
 
   <script>
-    (function () {
-        'use strict';
-
-        Polymer({
-            is: 'wine-info',
-            properties: {
-              myWines: {
-                type: Object,
-                notify: true
-              }
-            },
-            preventDispose: true,
-            ready: function() {
-            },
-            editItem: function(e) {
-                console.log(this.params);
-                var item = {};
-                item.name = document.querySelector("#newWineName").value;
-                item.type = document.querySelector("#newWineType").value;
-                item.desc = document.querySelector("#newWineDesc").value;
-                if (item.name === '') {
-                    alert('You must introduce a name !');
-                }
-                if (item.type === '') {
-                    alert('You must introduce a type !');
-                }
-                if (item.desc === '') {
-                    alert('You must introduce a description !');
-                }
-                if (item.name !== '' && item.type !== '' && item.desc !== '') {
-                    this.push('myWines', {name: item.name, type: item.type, desc: item.desc});
-                    document.querySelector("#newWineName").value = '';
-                    document.querySelector("#newWineType").value = '';
-                    document.querySelector("#newWineDesc").value = '';
-                }
-            }
-        });
-    })();
+//    (function () {
+//        'use strict';
+//
+//        Polymer({
+//            is: 'reviews',
+//            properties: {
+//                reviews: {
+//                    type: Array,
+//                    notify: true,
+//                    value: function() {
+//                        return [
+//                            {date: '2015-02-26', mark: 9, text: 'Excelente vino'},
+//                            {date: '2015-04-05', mark: 5, text: 'Para cualquier ocasión'},
+//                            {date: '2015-06-12', mark: 6, text: 'Gran vino'},
+//                            {date: '2015-08-23', mark: 7, text: 'Para tomar con carnes'}
+//                        ];
+//                    }
+//                }
+//            },
+//            ready: function() {
+//                console.log(this.params);
+//            }
+//        });
+//    })();
   </script>
 
 </body>

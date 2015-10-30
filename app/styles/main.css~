@@ -1,0 +1,81 @@
+/*
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+body {
+  background: #fafafa;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+#listWines {
+  margin-top: 40px;
+  height: 800px;
+}
+
+#wines {
+  position: relative;
+  height: 800px;
+  margin-top: 20px;
+}
+
+#wines #items.iron-list {
+
+}
+
+#wines #items.iron-list div {
+  position: relative;
+  float: left;
+}
+
+ul#addNewWine {
+  list-style: none;
+}
+
+.editElements {
+  position: relative;
+  float: left;
+  margin-top: 10px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+  margin-left: 25px;
+}
+
+.clear {
+  clear: both;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+paper-button {
+  flex-shrink: 1;
+}
+paper-input {
+  flex-grow: 1;
+}

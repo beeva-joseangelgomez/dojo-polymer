@@ -35,12 +35,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             Polymer({
                 is: 'wine-info',
                 properties: {
-                    myWine: {
-                        type: Object,
-                        notify: true//,
-//                        value: function() {
-//                            return {name: 'Cune', type: 'Rioja tinto', desc: 'Excelente vino'};
-//                        }
+                    reviews: {
+                        type: Array,
+                        notify: true,
+                        value: function() {
+                            return [
+                                {date: '2015-02-26', mark: 9, text: 'Excelente vino'},
+                                {date: '2015-04-05', mark: 5, text: 'Para cualquier ocasión'},
+                                {date: '2015-06-12', mark: 6, text: 'Gran vino'},
+                                {date: '2015-08-23', mark: 7, text: 'Para tomar con carnes'}
+                            ];
+                        }
                     }
                 },
                 ready: function() {

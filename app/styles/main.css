@@ -45,8 +45,57 @@ ul#addNewWine {
   list-style: none;
 }
 
+ul#addNewWine li {
+  margin-bottom: 10px;
+}
+
+ul#addNewWine li paper-button {
+  margin-top: 10px;
+}
+
+ul#addNewWine li #execAdd {
+  float: left;
+}
+
+ul#addNewWine li #closeAdd {
+  float: right;;
+}
+
 .editElements {
   position: relative;
   float: left;
+  margin-top: 15px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+  margin-left: 25px;
+}
+
+.clear {
+  clear: both;
   margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+paper-button {
+  flex-shrink: 1;
+  background: #3F51B5;
+  color: white;
+  margin-top: -10px;
+  max-width: 140px;
+}
+paper-input {
+  flex-grow: 1;
 }
