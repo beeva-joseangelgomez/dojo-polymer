@@ -16,40 +16,117 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 display: block;
             }
         </style>
+        <div id="newReview" class="hidden">
+            <p>Add a new review:</p>
+            <form on-submit="addItemForm">
+                <ul id="addNewReview">
+                    <li><label>Date: </label><input type="text" id="newReviewDate" value="" /></li>
+                    <li><label>Mark: </label><input type="text" id="newReviewMark" value="" /></li>
+                    <li><label>Text: </label><input type="text" id="newReviewText" value="" /></li>
+                    <li><paper-button id="execAdd" on-tap="execAddItem">Save</paper-button></li>
+                    <li><paper-button id="closeAdd" on-tap="closeAddItem">CLOSE</paper-button></li>
+                </ul>
+            </form>
+        </div>
+        <paper-button id="add" on-tap="addItem">Add New Wine Review</paper-button>
+        <div id="listWines">
 
-        <h2 class="page-title">
-            Wine: <span>{{myWine.name}}</span>
-        </h2>
-        <div><p>Name: <input type="text" id="editWineName" value="{{myWine.name}}" /></div>
-        <div><p>Type: <input type="text" id="editWineType" value="{{myWine.type}}" /></div>
-        <div><p>Description: <input type="text" id="editWineDesc" value="{{myWine.desc}}" /></div>
+            <div id="wine" class="float clear">
+                <firebase-collection
+                        order-by-key
+                        location="https://resplendent-inferno-6764.firebaseio.com/wines"
+                        equal-to="0"
+                        data="{{myWine}}"></firebase-collection>
+                <template is="dom-repeat" items="{{myWine}}" as="wine">
+                    <div class="left clear">
+                        <div class="left" id="wine_{{index}}">
+                            <div>
+                                <p><b>Name:</b> {{wine.name}}</p>
+                                <p><b>Type:</b> {{wine.type}}</p>
+                                <p><b>Description:</b> {{wine.desc}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
 
-        <button on-click="">Save!</button>
+            <div class="float clear"><h2>Reviews:</h2></div>
 
+            <div id="reviews" class="float clear">
+                <firebase-collection
+                        order-by-child="date"
+                        location="https://resplendent-inferno-6764.firebaseio.com/wines/0/reviews"
+                        data="{{myReviews}}"></firebase-collection>
+                <template is="dom-repeat" items="{{myReviews}}" as="item">
+                    <div class="left clear">
+                        <div class="left" id="review_{{index}}">
+                            <div>
+                                <p><b>Date:</b> {{item.date}}</p>
+                                <p><b>Mark:</b> {{item.mark}}</p>
+                                <p><b>Text:</b> {{item.text}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
     </template>
 
     <script>
         (function () {
             'use strict';
-
             Polymer({
                 is: 'wine-info',
                 properties: {
-                    reviews: {
+                    myReviews: {
                         type: Array,
-                        notify: true,
-                        value: function() {
-                            return [
-                                {date: '2015-02-26', mark: 9, text: 'Excelente vino'},
-                                {date: '2015-04-05', mark: 5, text: 'Para cualquier ocasión'},
-                                {date: '2015-06-12', mark: 6, text: 'Gran vino'},
-                                {date: '2015-08-23', mark: 7, text: 'Para tomar con carnes'}
-                            ];
-                        }
+                        notify: true
                     }
                 },
                 ready: function() {
-                    console.log(this.params);
+                    console.log(this._config);
+                },
+                addItem: function(e) {
+
+                    document.querySelector("#add").classList.add('hidden');
+                    document.querySelector("#add").classList.remove('visible');
+
+                    document.querySelector("#newReview").classList.remove('hidden');
+                    document.querySelector("#newReview").classList.add('visible');
+                },
+                execAddItem: function() {
+                    var item = {};
+                    item.date = document.querySelector("#newReviewDate").value;
+                    item.mark = document.querySelector("#newReviewMark").value;
+                    item.text = document.querySelector("#newReviewText").value;
+                    if(item.date==='') {
+                        alert('You must introduce a date !');
+                    }
+                    if(item.mark==='') {
+                        alert('You must introduce a mark !');
+                    }
+                    if(item.text==='') {
+                        alert('You must introduce a text !');
+                    }
+                    if(item.date!=='' && item.mark!=='' && item.text!=='') {
+                        this.push('myWines', {date: item.date, mark: item.mark, text: item.text});
+                        document.querySelector("#newReviewDate").value = '';
+                        document.querySelector("#newReviewMark").value = '';
+                        document.querySelector("#newReviewText").value = '';
+
+                        document.querySelector("#add").classList.add('visible');
+                        document.querySelector("#add").classList.remove('hidden');
+
+                        document.querySelector("#newReview").classList.remove('visible');
+                        document.querySelector("#newReview").classList.add('hidden');
+                    }
+                },
+                closeAddItem: function(e) {
+                    document.querySelector("#add").classList.add('visible');
+                    document.querySelector("#add").classList.remove('hidden');
+
+                    document.querySelector("#newReview").classList.remove('visible');
+                    document.querySelector("#newReview").classList.add('hidden');
                 }
             });
         })();

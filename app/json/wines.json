@@ -1,10 +1,88 @@
 {
   "wines": [
-    {"name": "Cune", "type": "Rioja tinto", "desc": "Excelente vino"},
-    {"name": "Protos", "type": "Rioja tinto", "desc": "Gran vino"},
-    {"name": "Pago de Capellanes", "type": "Ribera del Duero", "desc": "Para cualquier ocasión"},
-    {"name": "Diamante", "type": "Rioja blanco", "desc": "Para acompañar pescados"},
-    {"name": "Pata Negra", "type": "Rioja tinto", "desc": "Para tomar con carnes"},
-    {"name": "Mil Flores", "type": "Ribera del Duero", "desc": "Vino afrutado"}
+    {"name": "Cune", "type": "Rioja tinto", "desc": "Excelente vino",
+      "reviews": [
+        {
+          "date": "24-10-2014",
+          "mark": "5",
+          "text": "Menuda estafa"
+        },
+        {
+          "date": "23-10-2014",
+          "mark": "9",
+          "text": "Muy rico"
+        }
+      ]
+    },
+    {"name": "Protos", "type": "Rioja tinto", "desc": "Gran vino",
+      "reviews": [
+        {
+          "date": "24-10-2014",
+          "mark": "8",
+          "text": "Manifico"
+        },
+        {
+          "date": "23-10-2014",
+          "mark": "7",
+          "text": "Regular"
+        }
+      ]
+    },
+    {"name": "Pago de Capellanes", "type": "Ribera del Duero", "desc": "Para cualquier ocasión",
+      "reviews": [
+        {
+          "date": "24-09-2014",
+          "mark": "10",
+          "text": "Great"
+        },
+        {
+          "date": "23-08-2014",
+          "mark": "9",
+          "text": "Delicious"
+        }
+      ]
+    },
+    {"name": "Diamante", "type": "Rioja blanco", "desc": "Para acompañar pescados",
+      "reviews": [
+        {
+          "date": "24-06-2014",
+          "mark": "8",
+          "text": "Muy suave"
+        },
+        {
+          "date": "23-07-2014",
+          "mark": "9",
+          "text": "Me encanta"
+        }
+      ]
+    },
+    {"name": "Pata Negra", "type": "Rioja tinto", "desc": "Para tomar con carnes",
+      "reviews": [
+        {
+          "date": "24-02-2014",
+          "mark": "5",
+          "text": "Normalito"
+        },
+        {
+          "date": "23-04-2014",
+          "mark": "7",
+          "text": "Está bien"
+        }
+      ]
+    },
+    {"name": "Mil Flores", "type": "Ribera del Duero", "desc": "Vino afrutado",
+      "reviews": [
+        {
+          "date": "24-09-2014",
+          "mark": "5",
+          "text": "Muy ácido"
+        },
+        {
+          "date": "12-09-2014",
+          "mark": "2",
+          "text": "Decepcionante"
+        }
+      ]
+    }
   ]
 }

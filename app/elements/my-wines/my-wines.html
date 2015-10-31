@@ -17,68 +17,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         </style>
         <div id="newWine" class="hidden">
-            <p>Añadir un nuevo vino:</p>
-            <form on-submit="addItem">
+            <p>Add a new wine:</p>
+            <form on-submit="addItemForm">
                 <ul id="addNewWine">
-                    <li><label>Nombre: </label><input type="text" id="newWineName" value="" /></li>
-                    <li><label>Tipo: </label><input type="text" id="newWineType" value="" /></li>
-                    <li><label>Descripción: </label><input type="text" id="newWineDesc" value="" /></li>
-                    <li><paper-button id="execAdd" on-tap="execAddItem" data-args="nombre,tipo,descripcion"> Save!</paper-button></li>
-                    <li><paper-button id="closeAdd" on-tap="closeAddItem" data-args="nombre,tipo,descripcion"> CLOSE</paper-button></li>
+                    <li><label>Name: </label><input type="text" id="newWineName" value="" /></li>
+                    <li><label>Type: </label><input type="text" id="newWineType" value="" /></li>
+                    <li><label>Description: </label><input type="text" id="newWineDesc" value="" /></li>
+                    <li><paper-button id="execAdd" on-tap="execAddItem">Save</paper-button></li>
+                    <li><paper-button id="closeAdd" on-tap="closeAddItem">CLOSE</paper-button></li>
                 </ul>
             </form>
         </div>
-        <paper-button id="add" on-tap="addItem" data-args="nombre,tipo,descripcion">Add New Wine</paper-button>
+        <paper-button id="add" on-tap="addItem">Add New Wine</paper-button>
         <div id="listWines">
             <b>List:</b>
 
             <div id="wines">
                     <firebase-collection
                             order-by-child="name"
-                            limit-to-first="15"
                             location="https://resplendent-inferno-6764.firebaseio.com/wines"
                             data="{{myWines}}"></firebase-collection>
                     <template is="dom-repeat" items="{{myWines}}" as="item">
                         <div class="left clear">
                             <div class="left">
-                                <a href="{{_getHref(item)}}">{{item.name}}</a>
+                                <a href="/wines/{{index}}">{{item.name}}</a>
                             </div>
                             <div class="right">
-                                <paper-button on-tap="editItem"> Edit</paper-button>
-                                <paper-button on-tap="removeItem"> Remove</paper-button>
+                                <paper-button on-tap="editItem">Edit</paper-button>
+                                <paper-button on-tap="removeItem">Remove</paper-button>
                             </div>
-                            <div class="left hidden editElements" id="{{_getConcatId(index)}}">
+                            <div class="left hidden editElements" id="wine_{{index}}">
                                 <div>
                                     <span>Name: <input type="text" name="editWineName" value="{{item.name}}" /></span>
                                     <span>Type: <input type="text" name="editWineType" value="{{item.type}}" /></span>
                                     <span>Description: <input type="text" name="editWineDesc" value="{{item.desc}}" /></span>
-                                    <span><paper-button on-tap="saveItem" data-args="nombre,tipo,descripcion"> Save</paper-button></span>
-                                    <span><paper-button on-tap="closeEditItem" data-args="nombre,tipo,descripcion"> Save</paper-button></span>
+                                    <span><paper-button on-tap="saveItem">Save</paper-button></span>
+                                    <span><paper-button on-tap="closeEditItem">CLOSE</paper-button></span>
                                 </div>
                             </div>
                         </div>
                     </template>
             </div>
-
-            <!-- <iron-ajax url="../../json/wines.json" last-response="{{myWines}}" handle-as="json" auto></iron-ajax>
-            <iron-list id="wines" items="{{myWines}}" as="item">
-                <template>
-                    <div>
-                        <a href="{{_getHref(item)}}">{{item.name}}</a>
-                        <button on-click="editItem"> Edit</button>
-                        <button on-click="removeItem"> Remove</button>
-                        <div class="hidden editElements" id="{{_getConcatId(index)}}">
-                            <div>
-                                <span>Name: <input type="text" name="editWineName" value="{{item.name}}" /></span>
-                                <span>Type: <input type="text" name="editWineType" value="{{item.type}}" /></span>
-                                <span>Description: <input type="text" name="editWineDesc" value="{{item.desc}}" /></span>
-                                <span><button on-click="saveItem" data-args="nombre,tipo,descripcion"> Save</button></span>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-            </iron-list> -->
-
         </div>
     </template>
 
@@ -92,12 +71,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         type: Array,
                         notify: true
                     }
-                },
-                _getHref: function(item) {
-                    return '/wines/' + item.name + '/' + item.type + '/' + item.desc;
-                },
-                _getConcatId: function(index) {
-                    return 'wine_'+index;
                 },
                 ready: function() {
 
@@ -129,7 +102,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         document.querySelector("#newWineName").value = '';
                         document.querySelector("#newWineType").value = '';
                         document.querySelector("#newWineDesc").value = '';
-                        //alert('New Wine "' + item.name + '" Added to Cellar');
 
                         document.querySelector("#add").classList.add('visible');
                         document.querySelector("#add").classList.remove('hidden');
@@ -143,8 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     var index = data.index;
                     var name = data.item.name;
 
-                    //this.splice('myWines', index, 1);
-                    new Firebase('https://resplendent-inferno-6764.firebaseio.com/wines/' + index).remove();
+                    this.splice('myWines', index, 1);
                     alert('Removing Wine ' + name);
                 },
                 editItem: function(e) {
@@ -156,6 +127,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     document.querySelector("#wine_"+index).classList.add('visible');
                 },
                 closeEditItem: function(e) {
+                    var data = e.model.__data__;
+                    var element = data.item;
+                    var index = data.index;
+
                     document.querySelector("#wine_"+index).classList.remove('visible');
                     document.querySelector("#wine_"+index).classList.add('hidden');
                 },
@@ -164,10 +139,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     var element = data.item;
                     var index = data.index;
 
-                    new Firebase('https://resplendent-inferno-6764.firebaseio.com/wines/' + index).set({name: document.querySelector("#wine_"+index+" input[name='editWineName']").value, type: document.querySelector("#wine_"+index+" input[name='editWineType']").value, desc: document.querySelector("#wine_"+index+" input[name='editWineDesc']").value});
-//                    this.set('myWines.'+index+'.name', document.querySelector("#wine_"+index+" input[name='editWineName']").value);
-//                    this.set('myWines.'+index+'.type', document.querySelector("#wine_"+index+" input[name='editWineType']").value);
-//                    this.set('myWines.'+index+'.desc', document.querySelector("#wine_"+index+" input[name='editWineDesc']").value);
+                    new Firebase('https://resplendent-inferno-6764.firebaseio.com/wines/' + index)
+                            .set({
+                                name: document.querySelector("#wine_"+index+" input[name='editWineName']").value,
+                                type: document.querySelector("#wine_"+index+" input[name='editWineType']").value,
+                                desc: document.querySelector("#wine_"+index+" input[name='editWineDesc']").value
+                            });
 
                     document.querySelector("#wine_"+index).classList.remove('visible');
                     document.querySelector("#wine_"+index).classList.add('hidden');

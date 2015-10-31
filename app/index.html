@@ -133,23 +133,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="wine-info">
               <paper-material elevation="1">
-                <h2 class="page-title">
-                  Wine: <span>{{params.name}}</span>
-                </h2>
-                <div><p>Name: {{params.name}}</div>
-                <div><p>Type: {{params.type}}</div>
-                <div><p>Description: {{params.desc}}</div>
-
-                <!-- <iron-list id="reviews" items="{{reviews}}" as="review">
-                      <template>
-                          <div>
-                              <span>Fecha: <b>{{review.name}}</b></span>
-                              <span>Puntuación: <b>{{review.type}}</b></span>
-                              <span>Detalle: <b>{{review.desc}}</b></span>
-                          </div>
-                      </template>
-                </iron-list> -->
-
+                <wine-info></wine-info>
               </paper-material>
             </section>
 
@@ -163,33 +147,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
-
-  <script>
-//    (function () {
-//        'use strict';
-//
-//        Polymer({
-//            is: 'reviews',
-//            properties: {
-//                reviews: {
-//                    type: Array,
-//                    notify: true,
-//                    value: function() {
-//                        return [
-//                            {date: '2015-02-26', mark: 9, text: 'Excelente vino'},
-//                            {date: '2015-04-05', mark: 5, text: 'Para cualquier ocasión'},
-//                            {date: '2015-06-12', mark: 6, text: 'Gran vino'},
-//                            {date: '2015-08-23', mark: 7, text: 'Para tomar con carnes'}
-//                        ];
-//                    }
-//                }
-//            },
-//            ready: function() {
-//                console.log(this.params);
-//            }
-//        });
-//    })();
-  </script>
 
 </body>
 
