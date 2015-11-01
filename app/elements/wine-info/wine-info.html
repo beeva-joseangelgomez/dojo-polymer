@@ -28,14 +28,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </ul>
             </form>
         </div>
+        <b>{{params.idWine}}</b>
         <paper-button id="add" on-tap="addItem">Add New Wine Review</paper-button>
         <div id="listWines">
-
+            <b>{{params.idWine}}</b>
             <div id="wine" class="float clear">
                 <firebase-collection
                         order-by-key
                         location="https://resplendent-inferno-6764.firebaseio.com/wines"
-                        equal-to="0"
+                        equal-to="{{params.idWine}}"
                         data="{{myWine}}"></firebase-collection>
                 <template is="dom-repeat" items="{{myWine}}" as="wine">
                     <div class="left clear">
