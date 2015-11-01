@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="Polymer Starter Kit" />
-  <title>Polymer Starter Kit</title>
+  <title>Rewine Polymer</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
@@ -133,8 +133,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="wine-info">
               <paper-material elevation="1">
-                <b> idWine {{params.idWine}}</b>
-                <wine-info idWine="{{params.idWine}}">"</wine-info>
+                <p id="hidden_index" class="hidden">{{params.idWine}}</p>
+                <wine-info attr-for-selected="{{params.idWine}}"></wine-info>
               </paper-material>
             </section>
 

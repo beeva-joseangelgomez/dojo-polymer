@@ -34,19 +34,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <div id="wines">
                     <firebase-collection
-                            order-by-child="name"
+                            order-by-key
                             location="https://resplendent-inferno-6764.firebaseio.com/wines"
                             data="{{myWines}}"></firebase-collection>
                     <template is="dom-repeat" items="{{myWines}}" as="item">
                         <div class="left clear">
                             <div class="left">
-                                <a href="/wines/{{index}}">{{item.name}}</a>
+                                <a href="/wines/{{item.__firebaseKey__}}">{{item.name}}</a>
                             </div>
                             <div class="right">
                                 <paper-button on-tap="editItem">Edit</paper-button>
                                 <paper-button on-tap="removeItem">Remove</paper-button>
                             </div>
-                            <div class="left hidden editElements" id="wine_{{index}}">
+                            <div class="left hidden editElements" id="wine_{{item.__firebaseKey__}}">
                                 <div>
                                     <span>Name: <input type="text" name="editWineName" value="{{item.name}}" /></span>
                                     <span>Type: <input type="text" name="editWineType" value="{{item.type}}" /></span>

@@ -41,23 +41,23 @@ body {
   float: left;
 }
 
-ul#addNewWine {
+ul {
   list-style: none;
 }
 
-ul#addNewWine li {
+ul li {
   margin-bottom: 10px;
 }
 
-ul#addNewWine li paper-button {
+ul li paper-button {
   margin-top: 10px;
 }
 
-ul#addNewWine li #execAdd {
+ul li #execAdd {
   float: left;
 }
 
-ul#addNewWine li #closeAdd {
+ul li #closeAdd {
   float: right;;
 }
 

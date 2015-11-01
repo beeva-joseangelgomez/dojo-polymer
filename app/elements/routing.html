@@ -34,6 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page('/wines/:idWine', scrollToTop, function(data) {
       app.route = 'wine-info';
       app.params = data.params;
+
+      var wineInfo=document.querySelector('wine-info');
+      wineInfo.info=data.params;
     });
 
     // add #! before urls

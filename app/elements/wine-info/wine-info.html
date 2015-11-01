@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<dom-module id="wine-info">
+<dom-module id="wine-info" attributes="idWine">
     <template>
         <style>
             :host {
@@ -23,24 +23,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <li><label>Date: </label><input type="text" id="newReviewDate" value="" /></li>
                     <li><label>Mark: </label><input type="text" id="newReviewMark" value="" /></li>
                     <li><label>Text: </label><input type="text" id="newReviewText" value="" /></li>
-                    <li><paper-button id="execAdd" on-tap="execAddItem">Save</paper-button></li>
-                    <li><paper-button id="closeAdd" on-tap="closeAddItem">CLOSE</paper-button></li>
+                    <li><paper-button id="execAdd" on-tap="execAdd">Save</paper-button></li>
+                    <li><paper-button id="closeAdd" on-tap="closeAdd">CLOSE</paper-button></li>
                 </ul>
             </form>
         </div>
-        <b>{{params.idWine}}</b>
+        <h1></h1>
         <paper-button id="add" on-tap="addItem">Add New Wine Review</paper-button>
         <div id="listWines">
-            <b>{{params.idWine}}</b>
             <div id="wine" class="float clear">
                 <firebase-collection
                         order-by-key
                         location="https://resplendent-inferno-6764.firebaseio.com/wines"
-                        equal-to="{{params.idWine}}"
+                        equal-to="{{info.idWine}}"
                         data="{{myWine}}"></firebase-collection>
                 <template is="dom-repeat" items="{{myWine}}" as="wine">
                     <div class="left clear">
-                        <div class="left" id="wine_{{index}}">
+                        <div class="left" id="wine_{{wine.__firebaseKey__}}">
                             <div>
                                 <p><b>Name:</b> {{wine.name}}</p>
                                 <p><b>Type:</b> {{wine.type}}</p>
@@ -56,11 +55,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div id="reviews" class="float clear">
                 <firebase-collection
                         order-by-child="date"
-                        location="https://resplendent-inferno-6764.firebaseio.com/wines/0/reviews"
+                        location="https://resplendent-inferno-6764.firebaseio.com/wines/{{info.idWine}}/reviews"
                         data="{{myReviews}}"></firebase-collection>
                 <template is="dom-repeat" items="{{myReviews}}" as="item">
                     <div class="left clear">
-                        <div class="left" id="review_{{index}}">
+                        <div class="left" id="review_{{item.__firebaseKey__}}">
                             <div>
                                 <p><b>Date:</b> {{item.date}}</p>
                                 <p><b>Mark:</b> {{item.mark}}</p>
@@ -85,7 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }
                 },
                 ready: function() {
-                    console.log(this._config);
                 },
                 addItem: function(e) {
 
@@ -95,7 +93,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     document.querySelector("#newReview").classList.remove('hidden');
                     document.querySelector("#newReview").classList.add('visible');
                 },
-                execAddItem: function() {
+                execAdd: function() {
                     var item = {};
                     item.date = document.querySelector("#newReviewDate").value;
                     item.mark = document.querySelector("#newReviewMark").value;
@@ -110,7 +108,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         alert('You must introduce a text !');
                     }
                     if(item.date!=='' && item.mark!=='' && item.text!=='') {
-                        this.push('myWines', {date: item.date, mark: item.mark, text: item.text});
+                        this.push('myReviews', {date: item.date, mark: item.mark, text: item.text});
                         document.querySelector("#newReviewDate").value = '';
                         document.querySelector("#newReviewMark").value = '';
                         document.querySelector("#newReviewText").value = '';
@@ -122,7 +120,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         document.querySelector("#newReview").classList.add('hidden');
                     }
                 },
-                closeAddItem: function(e) {
+                closeAdd: function(e) {
                     document.querySelector("#add").classList.add('visible');
                     document.querySelector("#add").classList.remove('hidden');
 
