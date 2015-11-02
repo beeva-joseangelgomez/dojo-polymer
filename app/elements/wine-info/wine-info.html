@@ -54,13 +54,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div id="reviews" class="float clear">
                 <div class="float clear">
                     <label for="termFilter">Filter: </label>
-                    <input id="termFilter" type="text" on-keyup="filter">
+                    <input id="termFilter" type="text" value="{{filterVal::input}}">
                 </div>
                 <firebase-collection
                         order-by-child="date"
                         location="https://resplendent-inferno-6764.firebaseio.com/wines/{{info.idWine}}/reviews"
                         data="{{myReviews}}"></firebase-collection>
-                <template is="dom-repeat" items="{{myReviews}}" as="item" if="{{ filter(item) }}">
+                <template is="dom-repeat" items="{{myReviews}}" as="item" filter="{{_filter(filterVal)}}" >
                     <div class="left clear">
                         <div class="left" id="review_{{item.__firebaseKey__}}">
                             <div>
@@ -88,14 +88,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 },
                 ready: function() {
                 },
-                filter: function(e) {
-
-                    console.log('aaaaaa ' + JSON.stringify(e));
-                    /*if (document.querySelector("#termFilter").value) {
-                        console.log('return true;');
-                    } else {
-                        console.log('return ' + item.text.toLowerCase().contains(searchTerm.toLowerCase()));
-                    }*/
+                _filter: function(val) {
+                    return function(review) {
+                        if (!val) return true;
+                        if (!review) return false;
+                        return (review.text  && ~review.text.toLowerCase().indexOf(val.toLowerCase()))  ||
+                                (review.date && ~review.date.toLowerCase().indexOf(val.toLowerCase())) ||
+                                (review.mark && ~review.mark.toLowerCase().indexOf(val.toLowerCase()));
+                    };
                 },
                 addItem: function(e) {
 
