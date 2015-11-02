@@ -33,30 +33,115 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     suite('my-wines tests', function() {
-      var wines, winesItems;
+      var myWines, winesItems;
 
       setup(function() {
-        wines = fixture('basic');
+        myWines = fixture('basic');
       });
 
       test('Item lengths should be equalled', function(done) {
         // Test a property
         // TODO: Fix wines.items.push('Foo') causing a WeakMap exception
         // Invalid value used as weak map key
-        wines.items = [
-          'Responsive Web App boilerplate',
-          'Iron Elements and Paper Elements',
-          'End-to-end Build Tooling (including Vulcanize)',
-          'Unit testing with Web Component Tester',
-          'Routing with Page.js',
-          'Offline support with the Platinum Service Worker Elements'
-        ];
+        myWines = [
+            {"name": "Cune", "type": "Rioja tinto", "desc": "Excelente vino",
+              "reviews": [
+                {
+                  "date": "24-10-2014",
+                  "mark": "5",
+                  "text": "Menuda estafa"
+                },
+                {
+                  "date": "23-10-2014",
+                  "mark": "9",
+                  "text": "Muy rico"
+                }
+              ]
+            },
+            {"name": "Protos", "type": "Rioja tinto", "desc": "Gran vino",
+              "reviews": [
+                {
+                  "date": "24-10-2014",
+                  "mark": "8",
+                  "text": "Manifico"
+                },
+                {
+                  "date": "23-10-2014",
+                  "mark": "7",
+                  "text": "Regular"
+                }
+              ]
+            },
+            {"name": "Pago de Capellanes", "type": "Ribera del Duero", "desc": "Para cualquier ocasión",
+              "reviews": [
+                {
+                  "date": "24-09-2014",
+                  "mark": "10",
+                  "text": "Great"
+                },
+                {
+                  "date": "23-08-2014",
+                  "mark": "9",
+                  "text": "Delicious"
+                }
+              ]
+            },
+            {"name": "Diamante", "type": "Rioja blanco", "desc": "Para acompañar pescados",
+              "reviews": [
+                {
+                  "date": "24-06-2014",
+                  "mark": "8",
+                  "text": "Muy suave"
+                },
+                {
+                  "date": "23-07-2014",
+                  "mark": "9",
+                  "text": "Me encanta"
+                }
+              ]
+            },
+            {"name": "Pata Negra", "type": "Rioja tinto", "desc": "Para tomar con carnes",
+              "reviews": [
+                {
+                  "date": "24-02-2014",
+                  "mark": "5",
+                  "text": "Normalito"
+                },
+                {
+                  "date": "23-04-2014",
+                  "mark": "7",
+                  "text": "Está bien"
+                }
+              ]
+            },
+            {"name": "Mil Flores", "type": "Ribera del Duero", "desc": "Vino afrutado",
+              "reviews": [
+                {
+                  "date": "24-09-2014",
+                  "mark": "5",
+                  "text": "Muy ácido"
+                },
+                {
+                  "date": "12-09-2014",
+                  "mark": "2",
+                  "text": "Decepcionante"
+                }
+              ]
+            }
+          ];
 
         // Data bindings will stamp out new DOM asynchronously
         // so wait to check for updates
         flush(function() {
-          winesItems = wines.querySelectorAll('li');
-          assert.equal(wines.items.length, winesItems.length);
+
+          //var winesItems = document.getElementsByTagName("a");
+
+          expect(myWines).to.exist;
+          expect(myWines.length).to.equal(6);
+
+          //winesItems = myWines.querySelectorAll('firebase-collection');
+//          assert.equal(myWines.length, winesItems.length);
+//          assert.isTrue(document.getElementById('fixture').awesomest);
           done();
         });
       })
